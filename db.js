@@ -1,23 +1,23 @@
 const Sequelize = require('sequelize');
-const sequelize = new Sequelize('server', 'postgres', 'password', {
-    host: 'localhost',
-    dialect: 'postgres'
-});
+// const sequelize = new Sequelize('server', 'postgres', 'password', {
+//     host: 'localhost',
+//     dialect: 'postgres'
+// });
 
 // const Sequelize = require('sequelize')
 
-// // const db = new Sequelize(process.env.DATABASE_URL)
-// const sequelize = new Sequelize(process.env.DATABASE_URL, {
-//   dialect: 'postgres',
-//   dialectOptions: !process.env.DATABASE_URL.includes('localhost')
-//     ? {
-//         ssl: {
-//           require: true,
-//           rejectUnauthorized: false, // fixing unhandled rejection
-//         },
-//       }
-//     : {},
-// })
+
+const sequelize = new Sequelize(process.env.DATABASE_URL, {
+  dialect: 'postgres',
+  dialectOptions: !process.env.DATABASE_URL.includes('localhost')
+    ? {
+        ssl: {
+          require: true,
+          rejectUnauthorized: false, // fixing unhandled rejection
+        },
+      }
+    : {},
+})
 
 sequelize.authenticate().then(
     function() {
