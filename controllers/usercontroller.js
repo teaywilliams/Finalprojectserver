@@ -4,13 +4,16 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const validateSession = require('../middleware/validate-session');
 
+//Register 
+
 router.post('/register', function (req, res) {
     User.create({
         email: req.body.user.email,
         password: bcrypt.hashSync(req.body.user.password, 13),
         firstName: req.body.user.firstName,
         lastName: req.body.user.lastName,
-        isAdmin: req.body.user.isAdmin
+        isAdmin: req.body.user.isAdmin,
+        // userRole: req.body.user.isAdmin || 'User'
     })
         .then(
             function registerSuccess(user) {
@@ -20,10 +23,13 @@ router.post('/register', function (req, res) {
                     message: 'User successfully created!',
                     sessionToken: token
                 });
-            }
+            },
         )
         .catch(err => res.status(500).json({ error: err }))
 });
+
+
+//Login
 
 router.post('/login', function (req, res) {
     User.findOne({
@@ -51,6 +57,9 @@ router.post('/login', function (req, res) {
         })
         .catch(err => res.status(500).json({ error: err }))
 });
+
+//get admin
+
 
 router.put('/admin/:id', validateSession, (req, res) => {
     if (!req.err && req.body.user.isAdmin) {
@@ -90,7 +99,7 @@ router.put('/', validateSession, (req, res) => {
 });
 
 router.delete('/:id', validateSession, function (req, res) {
-    if (!req.err & req.body.user.admin) {
+    if (!req.err & req.body.user.isAdmin) {
         const query = { where: { id: req.params.id } };
 
         User.destroy(query)

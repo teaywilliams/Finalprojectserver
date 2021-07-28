@@ -20,8 +20,9 @@ module.exports = (sequelize, DataTypes) => {
         isAdmin: {
             type: DataTypes.STRING,
             allowNull: false,
-            defaultValue: 'false',
+            // defaultValue: 'false',
         }
     });
     return user;
+
 };

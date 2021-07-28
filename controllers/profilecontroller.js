@@ -58,9 +58,9 @@ router.get('/one/:id', (req, res) => {
 
 router.put('/update/:entryId', validateSession, async (req, res) => {
     const updateProfileEntry = {
-        picture: req.body.profile.picture,
-        title: req.body.profile.title,
-        details: req.body.profile.details,
+        picture: req.body.picture,
+        title: req.body.title,
+        details: req.body.details,
     };
     const query = { where: { id: req.params.entryId, userId: req.user.id } }
 

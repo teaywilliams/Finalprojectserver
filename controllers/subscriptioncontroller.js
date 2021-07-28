@@ -1,9 +1,9 @@
-const express = require('express');
-const router = express.Router();
-const validateSession = require('../middleware/validate-session');
+let express = require('express');
+let router = express.Router();
+let validateSession = require('../middleware/validate-session');
 const profile = require('../models/profile');
 const User = require('../models/User');
-const Subscription = require('../db').import('../models/subscription');
+let Subscription = require('../db').import('../models/subscription');
 
 router.post('/signup', validateSession, async (req, res) => {
     const subscription = {
@@ -35,6 +35,19 @@ router.get('/mine', validateSession, async (req,res) => {
     }
 });
 
+router.get('/mine/:id', (req, res) => {
+    Subscription.findOne({
+        where: {id: req.params.id},
+    })
+    .then((subscription) =>
+    res.status(200).json ({
+        message: 'Subscription Retrieved',
+        subscription,
+    })
+    )
+    .catch((err) => res.status(500).json({ error: err}));
+});
+
 router.get('/all', validateSession, (req, res) => {
     if (!req.err && req.user.isAdmin){
         Subscription.findAll()
@@ -47,11 +60,11 @@ router.get('/all', validateSession, (req, res) => {
 
 router.put('/update/:entryId', validateSession, async (req, res) => {
     const updateSubscription = {
-        streetAddress1: req.body.subscription.streetAddress1,
-        streetAddress2: req.body.subscription.streetAddress2,
-        city: req.body.subscription.city,
-        state: req.body.subscription.state,
-        zip: req.body.subscription.zip
+        streetAddress1: req.body.streetAddress1,
+        streetAddress2: req.body.streetAddress2,
+        city: req.body.city,
+        state: req.body.state,
+        zip: req.body.zip
     };
 
     const query = { where: {id: req.params.entryId, userId: req.user.id}}
