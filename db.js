@@ -28,9 +28,9 @@ sequelize.authenticate().then(
     }
 );
 
-User = sequelize.import('./models/user');
-Profile = sequelize.import('./models/profile');
-Subscription = sequelize.import('./models/subscription');
+const User = sequelize.import('./models/user');
+const Profile = sequelize.import('./models/profile');
+const Subscription = sequelize.import('./models/subscription');
 
 User.hasMany(Profile);
 Profile.belongsTo(User);
