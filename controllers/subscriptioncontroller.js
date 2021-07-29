@@ -2,7 +2,7 @@ let express = require('express');
 let router = express.Router();
 let validateSession = require('../middleware/validate-session');
 const profile = require('../models/profile');
-const User = require('../models/User');
+const User = require('../models/user');
 let Subscription = require('../db').import('../models/subscription');
 
 router.post('/signup', validateSession, async (req, res) => {
